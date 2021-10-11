@@ -5,33 +5,35 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import commons.BasePage;
+import commons.BaseTest;
 import pageObjects.liveGuru.HomePageObject;
 import pageObjects.liveGuru.LoginPageObject;
 import pageObjects.liveGuru.MyDashboardPageObject;
+import pageUIs.liveGuru.HomePageUI;
 
 
-public class Level_03_Register_Login_Page_Object {
+public class Level_03_Register_Login_Page_Object extends BaseTest {
 	WebDriver driver;
 	BasePage basePage;
 	String emailAddress, password;
 	String projectLocation = System.getProperty("user.dir"); 
+	
+	@Parameters({"browser", "url"})
 	@BeforeClass
-	public void initBrowser() {
-		System.setProperty("webdriver.chrome.driver", projectLocation +"\\browserDrivers\\chromedriver.exe");
-		driver = new ChromeDriver();
-		System.out.println("driver at testcase =" +driver.toString());
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+	public void initBrowser(String browserName, String appUrl) {
+		driver = getBrowserDriver(browserName, appUrl);
 		
 		emailAddress = getRandomEmail();
 		password = "123123123";
 		driver.get("http://live.techpanda.org/");
-
 	}
 
 	@Test
@@ -39,7 +41,6 @@ public class Level_03_Register_Login_Page_Object {
 		homePage = new HomePageObject(driver);
 		
 		homePage.clickToMyAccountFooterLink();
-		
 		loginPage = new LoginPageObject(driver);
 		
 		loginPage.loginToSystem("", "");

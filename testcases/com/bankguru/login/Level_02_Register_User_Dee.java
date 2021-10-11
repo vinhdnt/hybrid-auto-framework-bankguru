@@ -27,6 +27,8 @@ public class Level_02_Register_User_Dee extends BasePage {
 		driver = new ChromeDriver();
 		driver.get("https://www.deerberg.de/de/user/registration"); 
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+
 		
 	}
 
@@ -36,8 +38,8 @@ public class Level_02_Register_User_Dee extends BasePage {
 		sendkeyToElement(driver, "//input[@id='cust_lastName']", "test last name");
 		sendkeyToElement(driver, "//input[@id='cust_email']", getRandomEmail());
 		sendkeyToElement(driver, "//input[@id='password']", "123123123");
-		//checkToCheckboxByJs(driver, "//input[@id='Agree']");
-		sleepInSecond(3);
+		checkToCheckboxByJs(driver, "//input[@id='Agree']");
+		removeAttributeInDOM(driver, "//input[@id='Agree']", "style");
 		uncheckToCheckboxByJs(driver, "//input[@id='Agree']");
 		//clickToElement(driver, "//input[@id='registration_submit_btn']");
 		
