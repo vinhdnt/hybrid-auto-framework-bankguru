@@ -1,51 +1,40 @@
 package com.nopCommerce.login;
 
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import commons.BasePage;
-import pageObjects.nopCommerce.HomePageObject;
-import pageObjects.nopCommerce.LoginPageObject;
-import pageObjects.nopCommerce.RegisterPageObject;
+import commons.BaseTest;
+import pageFactory.nopCommerce.HomePageObject;
+import pageFactory.nopCommerce.LoginPageObject;
+import pageFactory.nopCommerce.RegisterPageObject;
 
-public class Level_03_Register_Login_Page_Object {
+
+public class Level_05_Register_Login_Page_Factory extends BaseTest {
 	WebDriver driver;
 	BasePage basePage;
 	String emailAddress, password;
-	String projectLocation = System.getProperty("user.dir"); 
+	
+	@Parameters({"browser", "url"})
 	@BeforeClass
-	public void initBrowser() {
-		System.setProperty("webdriver.chrome.driver", projectLocation +"\\browserDrivers\\chromedriver.exe");
-		driver = new ChromeDriver();
-		System.out.println("driver at testcase =" +driver.toString());
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		
+	public void initBrowser(String browserName, String appUrl) {
+		driver = getBrowserDriver(browserName, appUrl);		
 		emailAddress = getRandomEmail();
 		password = "123123123";
 	}
 
 	@Test
 	public void Login_01_Register_To_System() {
-		// Step 1: open url -> open homepage
-		driver.get("https://demo.nopcommerce.com/");
 		homePage = new HomePageObject(driver);
-		
 		Assert.assertTrue(homePage.isHomePageSliderDisplayed());
-
-		// Step 2: Click to register Link -> open register page
+		
 		homePage.clickToRegisterLink();
 		registerPage = new RegisterPageObject(driver);
 		
-		// Actions for testcase
 		registerPage.clickToGenderMaleRadioButton();
 		registerPage.enterToFirstNameTextbox("vinh");
 		registerPage.enterToLastNameTextbox("doan");
@@ -65,7 +54,6 @@ public class Level_03_Register_Login_Page_Object {
 		homePage.clickToLoginLink();
 		loginPage = new LoginPageObject(driver);
 		
-		//Actions
 		loginPage.enterToEmailTextbox(emailAddress);
 		loginPage.enterToPasswordTextbox(password);
 		loginPage.clickToLoginButton();
@@ -79,10 +67,6 @@ public class Level_03_Register_Login_Page_Object {
 		driver.quit();
 	}
 	
-	public String getRandomEmail() {
-		Random rand = new Random();
-		return "testing" + rand.nextInt(99999) + "@qa.team";
-	}
 	
 	HomePageObject homePage;
 	LoginPageObject loginPage;

@@ -1,6 +1,7 @@
 package commons;
 
 import java.io.File;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
@@ -11,8 +12,6 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseTest {
 	private WebDriver driver;
-	private String projectLocation = System.getProperty("user.dir");
-	private String osName = System.getProperty("os.name");
 	
 	private enum BROWSER {
 		CHROME, FIREFOX, IE, SAFARI, EDGE_LEGACY, EDGE_CHROMIUM, H_CHROME, H_FIREFOX;
@@ -42,7 +41,6 @@ public class BaseTest {
 			break;
 		}
 		return driver;
-		
 	}
 	protected WebDriver getBrowserDriver(String browserName, String appUrl) {
 		BROWSER browser = BROWSER.valueOf(browserName.toUpperCase());
@@ -60,15 +58,13 @@ public class BaseTest {
 			break;
 		}
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
 		driver.get(appUrl);
 		return driver;
-		
 	}
 	
-	private String getDirectorySlash(String folderName) {
-		String separator = File.separator;
-		return separator + folderName + separator;
+	public String getRandomEmail() {
+		Random rand = new Random();
+		return "testing" + rand.nextInt(99999) + "@qa.team";
 	}
-
-
 }
