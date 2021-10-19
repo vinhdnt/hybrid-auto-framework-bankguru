@@ -17,10 +17,13 @@ import commons.BasePage;
 import commons.BaseTest;
 import pageObjects.nopCommerce.HomePageObject;
 import pageObjects.nopCommerce.LoginPageObject;
+import pageObjects.nopCommerce.MyAccountPageObject;
+import pageObjects.nopCommerce.OrderPageObject;
 import pageObjects.nopCommerce.PageGeneratorManager;
 import pageObjects.nopCommerce.RegisterPageObject;
+import pageObjects.nopCommerce.SearchPageObject;
 
-public class Level_06_Register_Login_Page_Generator extends BaseTest {
+public class Level_07_Register_Login_Page_Switch_Page extends BaseTest {
 	WebDriver driver;
 	BasePage basePage;
 	String emailAddress, password;
@@ -35,14 +38,11 @@ public class Level_06_Register_Login_Page_Generator extends BaseTest {
 		
 		emailAddress = getRandomEmail();
 		password = "123123123";
-		homePage = PageGeneratorManager.getHomePage(driver);
-
-		
 	}
 
 	@Test
 	public void Login_01_Register_To_System() {
-		
+		homePage = PageGeneratorManager.getHomePage(driver);
 		Assert.assertTrue(homePage.isHomePageSliderDisplayed());
 		registerPage = homePage.clickToRegisterLink();
 		
@@ -69,6 +69,26 @@ public class Level_06_Register_Login_Page_Generator extends BaseTest {
 
 		Assert.assertTrue(homePage.isHomePageSliderDisplayed());
 	}
+	
+	@Test
+	public void Login_03_Switch_Page_At_Footer() {
+		//homepage -> search
+		searchPage = homePage.openSearchPage(driver);
+		
+		//search -> my account
+		myAccountPage = searchPage.openMyAccountPage(driver);
+		
+		//my account -> order
+		orderPage = myAccountPage.openOrderPage(driver);
+				
+		//order -> my account
+		myAccountPage = orderPage.openMyAccountPage(driver);
+
+		//my account -> search
+		searchPage = myAccountPage.openSearchPage(driver);
+
+		
+	}
 
 
 	@AfterClass
@@ -84,6 +104,9 @@ public class Level_06_Register_Login_Page_Generator extends BaseTest {
 	HomePageObject homePage;
 	LoginPageObject loginPage;
 	RegisterPageObject registerPage;
+	SearchPageObject searchPage;
+	MyAccountPageObject myAccountPage;
+	OrderPageObject orderPage;
 
 
 }

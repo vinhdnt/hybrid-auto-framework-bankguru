@@ -5,7 +5,7 @@
 	<test name="Run on CHROME">
 		<parameter name="browser" value="chrome" />
 		<classes>
-			<class name="com.nopCommerce.login.Level_06_Register_Login_Page_Generator" />
+			<class name="com.nopCommerce.login.Level_08_Register_Login_Page_Dynamic_Locator" />
 		</classes>
 	</test>
 
